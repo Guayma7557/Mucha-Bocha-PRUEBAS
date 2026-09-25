@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MuchaBocha · Escuelas a medida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700;900&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary-100: #686698;
+            --primary-200: #9b99cb;
+            --primary-accent: #f2a65a;
+            --text-light: #c9d1d9;
+            --bg-light: #e7ebef;
+            --bg-dark: #2b2438;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--bg-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2 { font-family: 'Bitter', serif; font-weight: 900; letter-spacing: -0.02em; }
+        p { font-family: 'Nunito', sans-serif; font-weight: 400; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--bg-dark); color: var(--text-light);
+            padding: 0.8rem 0; z-index: 30;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 3px solid var(--primary-accent);
+        }
+        header .container {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; padding: 0 2rem;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.8rem;
+            font-family: 'Bitter', serif; font-size: 1.8rem; font-weight: 900;
+            color: #fff; letter-spacing: -0.5px;
+        }
+        .logo img {
+            height: 48px; width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.2s;
+        }
+        .logo img:hover { transform: scale(1.05) rotate(-2deg); }
+        .logo-text {
+            color: #fff; font-size: 1.8rem; font-weight: 900;
+            font-family: 'Bitter', serif; letter-spacing: -0.5px;
+        }
+        .logo-text .accent { color: var(--primary-accent); }
+        nav { display: flex; gap: 2.5rem; font-weight: 700; font-size: 1.1rem; }
+        nav a {
+            color: var(--text-light); transition: all 0.25s;
+            padding: 0.3rem 0; position: relative;
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0%; height: 2px; background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+        nav a:hover { color: #fff; }
+        nav a:hover::after { width: 100%; }
+
+        /* =====================================================================
+           HERO — imagen visible + degradé decorativo en colores
+           ===================================================================== */
+        .hero {
+            min-height: 100vh; width: 100%;
+            display: flex; align-items: center; justify-content: flex-start;
+            position: relative; overflow: hidden;
+            padding-top: 80px;
+            background-color: var(--bg-dark);
+        }
+        .hero-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('et20.png');
+            background-size: cover; background-position: center; z-index: 0;
+        }
+        .hero-background::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg,
+                rgba(43, 36, 56, 0.80) 0%,
+                rgba(104, 102, 152, 0.55) 50%,
+                rgba(43, 36, 56, 0.80) 100%);
+            z-index: 1;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(242, 166, 90, 0.22) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(155, 153, 203, 0.22) 0%, transparent 45%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative; z-index: 2; max-width: 1400px; width: 100%;
+            padding: 0 2rem; display: flex; align-items: center;
+            justify-content: flex-start; color: #fff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .hero-text { max-width: 750px; animation: fadeUp 0.8s ease-out; margin-left: 8%; }
+        .hero-text h1 { font-size: 4.8rem; line-height: 1.05; margin-bottom: 1.5rem; color: #fff; }
+        .hero-text h1 span { color: var(--primary-accent); display: inline-block; animation: pulseText 3s infinite; }
+        .hero-text p {
+            font-size: 1.6rem; color: rgba(255,255,255,0.95);
+            margin-bottom: 2.8rem; max-width: 580px; font-weight: 400;
+        }
+        .btn {
+            display: inline-block; background: var(--primary-accent);
+            color: #fff; font-weight: 800; padding: 1rem 3.5rem;
+            border-radius: 60px; font-size: 1.4rem; letter-spacing: 0.3px;
+            box-shadow: 0 8px 24px rgba(242,166,90,0.45);
+            transition: all 0.3s ease; border: none; cursor: pointer;
+            position: relative; overflow: hidden;
+        }
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 32px rgba(242,166,90,0.6); }
+        .btn:hover::before { left: 100%; }
+
+        /* ===== FRASE FINAL ===== */
+        .footer-note {
+            background: var(--bg-dark); color: var(--text-light);
+            text-align: center; padding: 4rem 2rem;
+            border-top: 4px solid var(--primary-accent);
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .footer-note p {
+            max-width: 900px; margin: 0 auto; font-size: 2rem; font-weight: 700;
+            color: #fff; letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-family: 'Bitter', serif; line-height: 1.4;
+        }
+
+        /* =====================================================================
+           ESPECIALIDADES
+           ===================================================================== */
+        .especialidades {
+            position: relative;
+            background-color: var(--bg-light);
+            overflow: hidden;
+            min-height: 1100px;
+            background:
+                radial-gradient(circle at 25% 35%, rgba(155,153,203,0.14) 0%, transparent 50%),
+                radial-gradient(circle at 75% 65%, rgba(242,166,90,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 90%, rgba(104,102,152,0.10) 0%, transparent 55%),
+                var(--bg-light);
+        }
+
+        .constelacion-viewport {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            touch-action: none;
+            user-select: none; -webkit-user-select: none;
+            cursor: grab;
+            contain: layout paint;
+        }
+        .constelacion-viewport.dragging { cursor: grabbing; }
+
+        .constelacion-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 3100px; height: 2400px;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .esfera {
+            position: absolute; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; color: #fff; font-weight: 700;
+            font-family: 'Nunito', sans-serif; line-height: 1.2;
+            padding: 1.2rem;
+            cursor: pointer;
+            user-select: none; -webkit-user-select: none;
+            box-shadow: 0 18px 40px rgba(43,36,56,0.32);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+            will-change: transform;
+            transform: translate(-50%, -50%) scale(1);
+            overflow: hidden;
+        }
+        .esfera:hover {
+            transform: translate(-50%, -50%) scale(1.06);
+            box-shadow: 0 24px 52px rgba(43,36,56,0.45), 0 0 0 5px rgba(242,166,90,0.4);
+            z-index: 5;
+        }
+        .esfera.active {
+            transform: translate(-50%, -50%) scale(1.14) !important;
+            box-shadow: 0 0 0 9px var(--primary-accent), 0 30px 60px rgba(0,0,0,0.4) !important;
+            z-index: 20;
+        }
+        .esfera.dimmed {
+            opacity: 0.30;
+            filter: blur(1.5px) grayscale(0.35);
+            transform: translate(-50%, -50%) scale(0.92);
+            pointer-events: none;
+        }
+
+        .esfera.paleta-1  { background: var(--primary-100); color: #fff; }
+        .esfera.paleta-2  { background: var(--primary-200); color: var(--bg-dark); }
+        .esfera.paleta-3  { background: var(--primary-accent); color: var(--bg-dark); }
+        .esfera.paleta-4  { background: var(--bg-dark); border: 3px solid var(--primary-accent); color: #fff; }
+        .esfera.paleta-5  { background: var(--text-light); color: var(--bg-dark); }
+        .esfera.paleta-6  { background: linear-gradient(135deg, var(--primary-100), var(--primary-200)); color: #fff; }
+        .esfera.paleta-7  { background: linear-gradient(135deg, var(--primary-accent), var(--primary-200)); color: var(--bg-dark); }
+        .esfera.paleta-8  { background: linear-gradient(135deg, var(--bg-dark), var(--primary-100)); color: #fff; }
+
+        .drag-hint {
+            position: absolute; bottom: 22px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(43,36,56,0.85); color: #fff;
+            font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px;
+            padding: 0.6rem 1.3rem; border-radius: 40px;
+            z-index: 5; pointer-events: none;
+            backdrop-filter: blur(6px);
+            transition: opacity 0.4s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .drag-hint.hidden { opacity: 0; }
+        .drag-hint i { margin-right: 0.4rem; color: var(--primary-accent); }
+
+        /* =====================================================================
+           CONTENIDO SUPERPUESTO
+           ===================================================================== */
+        .especialidades-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 1100px;
+            padding: 3.5rem 2rem 3.5rem;
+            pointer-events: none;
+        }
+
+        .header-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(231, 235, 239, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 1.6rem 2.4rem 1.8rem;
+            margin: 0 auto;
+            max-width: 780px;
+            box-shadow: 0 8px 32px rgba(43, 36, 56, 0.10),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(104, 102, 152, 0.10);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .especialidades .lead {
+            font-size: 1.7rem; font-weight: 700; color: var(--primary-100);
+            margin-bottom: 0.1rem; font-family: 'Bitter', serif;
+            line-height: 1.3;
+        }
+        .especialidades h2 {
+            font-size: 3rem; color: var(--bg-dark); margin-bottom: 0.3rem;
+            line-height: 1.1;
+        }
+        .especialidades .instrucciones {
+            font-size: 1.05rem; color: var(--bg-dark);
+            font-weight: 700;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        .bottom-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.6rem;
+            pointer-events: none;
+        }
+
+        /* =====================================================================
+           DESCRIPCIÓN FLOTANTE — FIXED, visible antes de la sección,
+           se oculta antes al scrollear dentro de ella
+           ===================================================================== */
+        .descripcion-especialidad {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translate(-50%, 150%);
+            z-index: 45;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(231, 235, 239, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            max-width: min(720px, calc(100vw - 400px));
+            min-width: 340px;
+            min-height: 62px;
+            font-size: 1.15rem;
+            color: var(--bg-dark);
+            font-weight: 700;
+            box-shadow: 0 12px 40px rgba(43, 36, 56, 0.20),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(104, 102, 152, 0.15);
+            line-height: 1.45;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease,
+                        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        visibility 0.35s;
+            pointer-events: none;
+        }
+
+        .descripcion-especialidad.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+        }
+
+        .descripcion-especialidad .placeholder {
+            color: var(--primary-100);
+            font-style: italic;
+            font-weight: 700;
+        }
+        .descripcion-especialidad strong {
+            color: var(--bg-dark);
+            font-weight: 900;
+        }
+
+        /* =====================================================================
+           BOTÓN "Y MUCHO MÁS"
+           ===================================================================== */
+        .btn-ver-mas-wrapper {
+            pointer-events: auto;
+            display: flex;
+            justify-content: center;
+        }
+        .btn-ver-mas {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: 0.4px;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 10px 26px rgba(104, 102, 152, 0.35);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ver-mas::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s;
+        }
+        .btn-ver-mas i { font-size: 0.95rem; transition: transform 0.3s ease; }
+        .btn-ver-mas:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: linear-gradient(135deg, var(--primary-accent), #e0943f);
+            box-shadow: 0 16px 36px rgba(242, 166, 90, 0.5);
+        }
+        .btn-ver-mas:hover::before { left: 100%; }
+        .btn-ver-mas:hover i { transform: translateX(5px); }
+        .btn-ver-mas:active { transform: translateY(-1px) scale(1.0); }
+
+        /* =====================================================================
+           QUICK NAV — SOLO TEXTO (sin caja ni borde)
+           Visible ÚNICAMENTE mientras el hero está a la vista
+           ===================================================================== */
+        .quick-nav {
+            position: fixed;
+            left: 26px;
+            bottom: 30px;
+            z-index: 46;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.6rem;
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.4s ease,
+                        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                        visibility 0.4s;
+            pointer-events: none;
+        }
+        .quick-nav.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .quick-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.98rem;
+            letter-spacing: 0.3px;
+            padding: 0.2rem 0;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.25s ease, transform 0.25s ease;
+            position: relative;
+            /* sombra suave para legibilidad sobre la imagen del hero */
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55),
+                         0 0 12px rgba(0, 0, 0, 0.35);
+        }
+        .quick-nav-btn i {
+            color: var(--primary-accent);
+            font-size: 0.9rem;
+            transition: color 0.25s ease, transform 0.25s ease;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+        }
+        .quick-nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            border-radius: 2px;
+        }
+        .quick-nav-btn:hover {
+            color: var(--primary-accent);
+            transform: translateY(-1px);
+        }
+        .quick-nav-btn:hover i {
+            color: var(--primary-accent);
+            transform: scale(1.15);
+        }
+        .quick-nav-btn:hover::after {
+            transform: scaleX(1);
+        }
+        .quick-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(242, 166, 90, 0.45);
+            flex-shrink: 0;
+        }
+
+        /* =====================================================================
+           TESTIMONIOS
+           ===================================================================== */
+        .testimonios {
+            position: relative;
+            width: 100%; max-width: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #f6f7fa 100%);
+            padding: 6rem 0 5.5rem;
+            border-top: 2px solid var(--bg-light);
+            overflow: hidden;
+        }
+        .testimonios-header { text-align: center; margin-bottom: 3.5rem; padding: 0 1.5rem; }
+        .testimonios-header h2 {
+            font-size: 3.4rem; color: var(--bg-dark); margin-bottom: 0.5rem;
+            position: relative; display: inline-block;
+        }
+        .testimonios-header h2::after {
+            content: ''; display: block; width: 80px; height: 4px;
+            background: var(--primary-accent); border-radius: 4px; margin: 0.9rem auto 0;
+        }
+        .testimonios-header .subtitle {
+            font-size: 1.2rem; color: var(--primary-100);
+            font-weight: 400; max-width: 620px;
+            margin: 0.4rem auto 0; line-height: 1.5;
+        }
+        .testimonios-carrusel {
+            position: relative; width: 100%;
+            margin: 0; padding: 0 70px;
+        }
+        .testimonios-container { overflow: hidden; width: 100%; }
+        .testimonios-track {
+            display: flex; gap: 2rem;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform; flex-wrap: nowrap; padding: 1rem 0;
+        }
+        .testimonio-item {
+            flex: 0 0 380px;
+            background: #ffffff;
+            padding: 2.4rem 2rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(43, 36, 56, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1rem; min-height: 320px;
+            position: relative;
+            border: 1px solid rgba(104, 102, 152, 0.08);
+        }
+        .testimonio-item::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--primary-100), var(--primary-accent));
+            border-radius: 24px 24px 0 0; opacity: 0.85;
+        }
+        .testimonio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 22px 44px rgba(43, 36, 56, 0.12);
+        }
+        .testimonio-estrellas {
+            display: flex; gap: 0.25rem;
+            font-size: 1.3rem; color: var(--primary-accent);
+            line-height: 1; margin-bottom: 0.2rem;
+        }
+        .testimonio-estrellas i { filter: drop-shadow(0 2px 3px rgba(242, 166, 90, 0.35)); }
+        .testimonio-estrellas .empty { color: rgba(104, 102, 152, 0.22); filter: none; }
+
+        .testimonio-avatar {
+            width: 84px; height: 84px; border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(104, 102, 152, 0.28);
+            flex-shrink: 0;
+            border: 3px solid #ffffff;
+            outline: 2px solid var(--primary-accent);
+            margin-top: 0.3rem;
+            background: var(--bg-light);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .testimonio-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        .testimonio-texto {
+            font-size: 1.05rem; color: var(--bg-dark); font-weight: 400;
+            line-height: 1.65; font-style: italic;
+            max-width: 320px; margin: 0 auto; text-align: center;
+        }
+        .testimonio-autor {
+            font-weight: 800; color: var(--primary-100);
+            margin-top: 0.4rem; font-size: 1rem;
+            letter-spacing: 0.2px; text-transform: uppercase;
+            text-align: center;
+        }
+        .testimonio-autor .escuela-tipo {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--primary-200);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            margin-top: 0.15rem;
+        }
+
+        .testimonios-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: #ffffff; color: var(--bg-dark);
+            border: 1px solid rgba(104, 102, 152, 0.15);
+            width: 54px; height: 54px; border-radius: 50%;
+            font-size: 1.4rem; cursor: pointer; z-index: 10;
+            transition: all 0.25s ease;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 18px rgba(43, 36, 56, 0.12);
+        }
+        .testimonios-btn:hover {
+            background: var(--primary-accent); color: #fff;
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 10px 24px rgba(242, 166, 90, 0.4);
+        }
+        .testimonios-btn.left { left: 12px; }
+        .testimonios-btn.right { right: 12px; }
+
+        /* =====================================================================
+           FOOTER
+           ===================================================================== */
+        .site-footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 4.5rem 0 0;
+            position: relative;
+            border-top: 4px solid var(--primary-accent);
+            overflow: hidden;
+        }
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(242, 166, 90, 0.10) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(155, 153, 203, 0.10) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .footer-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 3.5rem;
+        }
+        .footer-brand .logo {
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+        }
+        .footer-brand .logo img {
+            height: 44px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .footer-brand p {
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            max-width: 320px;
+        }
+        .footer-social {
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+        }
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            transition: all 0.25s ease;
+        }
+        .footer-social a:hover {
+            background: var(--primary-accent);
+            color: #fff;
+            border-color: var(--primary-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(242, 166, 90, 0.35);
+        }
+        .footer-col h4 {
+            font-family: 'Bitter', serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1.3rem;
+            letter-spacing: 0.3px;
+            position: relative;
+            padding-bottom: 0.6rem;
+        }
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 32px; height: 3px;
+            background: var(--primary-accent);
+            border-radius: 3px;
+        }
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .footer-col ul li a {
+            color: var(--text-light);
+            opacity: 0.85;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-col ul li a i {
+            font-size: 0.7rem;
+            color: var(--primary-accent);
+            transition: transform 0.2s ease;
+        }
+        .footer-col ul li a:hover {
+            color: #fff;
+            opacity: 1;
+            transform: translateX(4px);
+        }
+        .footer-col ul li a:hover i {
+            transform: translateX(3px);
+        }
+        .footer-news p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 1.2rem;
+        }
+        .footer-news form {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.35rem;
+            transition: border-color 0.3s ease;
+        }
+        .footer-news form:focus-within {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.15);
+        }
+        .footer-news input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.55rem 1rem;
+        }
+        .footer-news input::placeholder {
+            color: rgba(201, 209, 217, 0.6);
+        }
+        .footer-news button {
+            background: var(--primary-accent);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.55rem 1.3rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-news button:hover {
+            background: #e0943f;
+            transform: scale(1.03);
+        }
+        .footer-bottom {
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.88rem;
+            color: rgba(201, 209, 217, 0.75);
+        }
+        .footer-bottom .copy strong {
+            color: var(--primary-accent);
+            font-weight: 800;
+        }
+        .footer-bottom .legal {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-bottom .legal a {
+            color: rgba(201, 209, 217, 0.75);
+            transition: color 0.2s;
+        }
+        .footer-bottom .legal a:hover {
+            color: var(--primary-accent);
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        @keyframes floaty {
+            0%, 100% { margin-top: 0; }
+            50% { margin-top: -10px; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .testimonio-item { flex: 0 0 340px; }
+            .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
+            .footer-news { grid-column: 1 / -1; }
+            .descripcion-especialidad { max-width: min(640px, calc(100vw - 340px)); }
+        }
+        @media (max-width: 992px) {
+            .hero-text { margin-left: 5%; }
+            .hero-text h1 { font-size: 3.6rem; }
+            .hero-text p { font-size: 1.3rem; }
+            .btn { font-size: 1.2rem; padding: 0.9rem 2.8rem; }
+            .footer-note p { font-size: 1.6rem; }
+            .especialidades h2 { font-size: 2.5rem; }
+            .testimonios-header h2 { font-size: 2.8rem; }
+            .especialidades { min-height: 950px; }
+            .especialidades-content { min-height: 950px; padding: 3rem 1.8rem 3rem; }
+            .header-block { padding: 1.4rem 1.8rem 1.5rem; border-radius: 22px; }
+            .testimonio-item { flex: 0 0 320px; min-height: 300px; }
+            .testimonios-carrusel { padding: 0 60px; }
+        }
+        @media (max-width: 768px) {
+            header .container { flex-direction: row; justify-content: space-between; padding: 0 1rem; }
+            .logo { font-size: 1.4rem; }
+            .logo img { height: 38px; }
+            .logo-text { font-size: 1.4rem; }
+            nav { gap: 1rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: flex-end; }
+            .hero { padding-top: 100px; min-height: 100vh; justify-content: center; }
+            .hero-content { justify-content: center; padding: 0 1.5rem; text-align: center; }
+            .hero-text { max-width: 100%; margin-left: 0; text-align: center; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text p { font-size: 1.1rem; max-width: 100%; margin-left: auto; margin-right: auto; }
+            .btn { font-size: 1rem; padding: 0.7rem 2rem; }
+            .footer-note { padding: 2.5rem 1.5rem; }
+            .footer-note p { font-size: 1.4rem; }
+            .especialidades .lead { font-size: 1.3rem; }
+            .especialidades h2 { font-size: 2rem; }
+            .especialidades .instrucciones { font-size: 0.95rem; }
+            .especialidades { min-height: 820px; }
+            .especialidades-content { min-height: 820px; padding: 2.8rem 1.2rem 2.8rem; }
+            .header-block { padding: 1.1rem 1.3rem 1.2rem; border-radius: 20px; gap: 0.25rem; }
+            .btn-ver-mas { font-size: 1rem; padding: 0.85rem 2.2rem; }
+            .drag-hint { bottom: 14px; }
+
+            .descripcion-especialidad {
+                max-width: calc(100vw - 60px);
+                min-width: 0;
+                bottom: 20px;
+                padding: 0.85rem 1.2rem;
+                font-size: 0.95rem;
+                min-height: 52px;
+                border-radius: 16px;
+            }
+
+            .quick-nav {
+                left: 16px;
+                bottom: 18px;
+                gap: 1rem;
+            }
+            .quick-nav-btn {
+                font-size: 0.82rem;
+            }
+            .quick-nav-btn i { font-size: 0.78rem; }
+
+            .testimonios { padding: 4rem 0 3.5rem; }
+            .testimonios-header { margin-bottom: 2.5rem; padding: 0 1.2rem; }
+            .testimonios-header h2 { font-size: 2.2rem; }
+            .testimonios-header .subtitle { font-size: 1rem; }
+            .testimonios-carrusel { padding: 0 50px; }
+            .testimonios-track { gap: 1.5rem; }
+            .testimonio-item { flex: 0 0 280px; min-height: 300px; padding: 2rem 1.4rem 1.6rem; }
+            .testimonio-avatar { width: 72px; height: 72px; }
+            .testimonio-texto { font-size: 0.98rem; }
+            .testimonio-estrellas { font-size: 1.1rem; }
+            .testimonios-btn { width: 42px; height: 42px; font-size: 1.1rem; }
+            .testimonios-btn.left { left: 4px; }
+            .testimonios-btn.right { right: 4px; }
+
+            .site-footer { padding: 3.5rem 0 0; }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.2rem;
+                padding: 0 1.5rem 2.5rem;
+            }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-news { grid-column: 1 / -1; }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.3rem 1.5rem;
+            }
+            .footer-bottom .legal { justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 1.2rem; }
+            .logo img { height: 32px; }
+            .logo-text { font-size: 1.2rem; }
+            nav { gap: 0.5rem 0.8rem; font-size: 0.8rem; }
+            .hero-text h1 { font-size: 2.2rem; }
+            .btn { padding: 0.6rem 1.6rem; font-size: 0.95rem; }
+            .footer-note p { font-size: 1.2rem; }
+            .especialidades .lead { font-size: 1.1rem; }
+            .especialidades h2 { font-size: 1.6rem; }
+            .especialidades .instrucciones { font-size: 0.85rem; }
+            .especialidades { min-height: 720px; }
+            .especialidades-content { min-height: 720px; padding: 2.2rem 1rem 2.2rem; gap: 1rem; }
+            .header-block { padding: 1rem 1rem 1.1rem; border-radius: 18px; }
+            .drag-hint { font-size: 0.72rem; padding: 0.4rem 0.8rem; }
+            .btn-ver-mas { font-size: 0.92rem; padding: 0.75rem 1.8rem; }
+
+            .descripcion-especialidad {
+                max-width: calc(100vw - 40px);
+                bottom: 14px;
+                font-size: 0.88rem;
+                padding: 0.7rem 1rem;
+                min-height: 44px;
+                border-radius: 14px;
+            }
+
+            .quick-nav {
+                left: 12px;
+                bottom: 12px;
+                gap: 0.8rem;
+            }
+            .quick-nav-btn {
+                font-size: 0.75rem;
+                gap: 0.3rem;
+            }
+            .quick-nav-btn i { font-size: 0.7rem; }
+
+            .testimonios { padding: 3rem 0 3rem; }
+            .testimonios-header h2 { font-size: 1.8rem; }
+            .testimonios-header .subtitle { font-size: 0.9rem; }
+            .testimonios-carrusel { padding: 0 44px; }
+            .testimonios-track { gap: 1rem; }
+            .testimonio-item { flex: 0 0 240px; min-height: 290px; padding: 1.7rem 1.1rem 1.4rem; border-radius: 20px; }
+            .testimonio-avatar { width: 62px; height: 62px; }
+            .testimonio-texto { font-size: 0.9rem; }
+            .testimonio-autor { font-size: 0.85rem; }
+            .testimonio-autor .escuela-tipo { font-size: 0.7rem; }
+            .testimonio-estrellas { font-size: 1rem; }
+            .testimonios-btn { width: 36px; height: 36px; font-size: 0.95rem; }
+
+            .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; padding: 0 1.2rem 2rem; }
+            .footer-brand p { font-size: 0.9rem; }
+            .footer-col h4 { font-size: 0.98rem; }
+            .footer-col ul li a { font-size: 0.88rem; }
+            .footer-news form { flex-direction: column; background: transparent; border: none; padding: 0; gap: 0.6rem; }
+            .footer-news input {
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 50px;
+                padding: 0.7rem 1.2rem;
+            }
+            .footer-news button { width: 100%; justify-content: center; padding: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="MuchaBocha.png" alt="MuchaBocha" />
+                <span class="logo-text">Mucha<span class="accent">Bocha</span></span>
+            </div>
+            <nav>
+                <a href="#">Inicio</a>
+                <a href="encuentra_tu_escuela.html">Encuentra tu escuela</a>
+                <a href="#">Quienes somos</a>
+                <a href="ayuda.html">Ayuda</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Su escuela, <span>a medida</span></h1>
+                <p>Navegá por todas las escuelas de CABA y elegí la que encaje con vos.</p>
+                <a href="encuentra_tu_escuela.html" class="btn">Buscar ya →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FRASE ===== -->
+    <section class="footer-note">
+        <div class="container">
+            <p>Miles de chicos se especializan en profesiones en las que no terminan trabajando</p>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         ESPECIALIDADES
+         ===================================================================== -->
+    <section class="especialidades" id="especialidades">
+        <div class="constelacion-viewport" id="constelacionViewport">
+            <div class="constelacion-canvas" id="constelacionCanvas"></div>
+
+        </div>
+
+        <div class="especialidades-content">
+            <div class="header-block">
+                <p class="lead">por eso, te ayudamos a encontrar su futuro real</p>
+                <h2>Especialidades en auge</h2>
+                <p class="instrucciones">Arrastrá el mapa para explorar • Clickeá una esfera para saber más</p>
+            </div>
+
+            <div class="bottom-block">
+                <div class="btn-ver-mas-wrapper">
+                    <button class="btn-ver-mas" id="btnVerMas" type="button">
+                        Y mucho más <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Descripción flotante (fixed) -->
+    <div class="descripcion-especialidad" id="descripcionEspecialidad">
+        <span class="placeholder">Hacé clic en una especialidad para conocer más</span>
+    </div>
+
+    <!-- =====================================================================
+         QUICK NAV — solo texto (sin caja/borde), visible solo en el hero
+         ===================================================================== -->
+    <div class="quick-nav" id="quickNav" aria-label="Navegación rápida">
+        <button class="quick-nav-btn" data-target="#especialidades" title="Ir a Especialidades en auge">
+            <i class="fas fa-circle-nodes"></i>
+            <span>Especialidades</span>
+        </button>
+        <div class="quick-nav-sep"></div>
+        <button class="quick-nav-btn" data-target="#testimonios" title="Ir a Testimonios">
+            <i class="fas fa-quote-right"></i>
+            <span>Testimonios</span>
+        </button>
+    </div>
+
+    <!-- ===== TESTIMONIOS ===== -->
+    <section class="testimonios" id="testimonios">
+        <div class="testimonios-header">
+            <h2>Testimonios</h2>
+            <p class="subtitle">Escuelas de CABA que ya forman parte de la comunidad MuchaBocha</p>
+        </div>
+
+        <div class="testimonios-carrusel">
+            <button class="testimonios-btn left" id="testimoniosLeft" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonios-container">
+                <div class="testimonios-track" id="testimoniosTrack"></div>
+            </div>
+            <button class="testimonios-btn right" id="testimoniosRight" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="MuchaBocha.png" alt="MuchaBocha" />
+                    <span class="logo-text">Mucha<span class="accent">Bocha</span></span>
+                </div>
+                <p>La plataforma que ayuda a estudiantes de CABA a encontrar la escuela secundaria que mejor se adapta a sus intereses y su futuro.</p>
+                <div class="footer-social">
+                    <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61594573179709" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" rel="noopener" aria-label="Twitter / X"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/@MuchaBocha" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="mailto:muchabocha.caba@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Plataforma</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="encuentra_tu_escuela.html"><i class="fas fa-chevron-right"></i> Encuentra tu escuela</a></li>
+                    <li><a href="#especialidades"><i class="fas fa-chevron-right"></i> Especialidades en auge</a></li>
+                    <li><a href="#testimonios"><i class="fas fa-chevron-right"></i> Testimonios</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Comparador de escuelas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Quiénes somos</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Preguntas frecuentes</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Guía para familias</a></li>
+                    <li><a href="mailto:muchabocha.caba@gmail.com"><i class="fas fa-chevron-right"></i> Contacto</a></li>
+                    <li><a href="ayuda.html"><i class="fas fa-chevron-right"></i> Ayuda</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-news">
+                <h4>Sumate al newsletter</h4>
+                <p>Recibí novedades sobre especialidades, escuelas y orientación vocacional.</p>
+                <form onsubmit="event.preventDefault(); this.reset(); this.querySelector('button').innerHTML='<i class=&quot;fas fa-check&quot;></i> ¡Listo!'">
+                    <input type="email" placeholder="tu@email.com" required />
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copy">
+                © 2025 <strong>MuchaBocha</strong>. Todos los derechos reservados.
+            </div>
+            <div class="legal">
+                <a href="#">Términos y condiciones</a>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+    (function () {
+        'use strict';
+
+        /* =====================================================================
+           1. DATOS
+           ===================================================================== */
+        const especialidades = [
+            { nombre: 'Informática',                desc: 'Desarrollo de software, bases de datos y sistemas.',                  size: 360 },
+            { nombre: 'TICs',                       desc: 'Redes, telecomunicaciones y seguridad digital.',                      size: 340 },
+            { nombre: 'Industria de los alimentos', desc: 'Producción, control de calidad y alimentos funcionales.',             size: 380 },
+            { nombre: 'Robótica',                   desc: 'Diseño, programación y control de robots autónomos.',                 size: 350 },
+            { nombre: 'Energías renovables',        desc: 'Energía solar, eólica y sustentabilidad.',                            size: 370 },
+            { nombre: 'Diseño digital',             desc: 'Diseño gráfico, UX/UI y animación digital.',                          size: 340 },
+            { nombre: 'Marketing',                  desc: 'Estrategias de marca, redes y publicidad.',                           size: 330 },
+            { nombre: 'Idiomas',                    desc: 'Inglés, portugués y lenguas extranjeras.',                            size: 350 },
+            { nombre: 'Ciencias ambientales',       desc: 'Ecología, gestión de recursos y conservación.',                       size: 380 },
+            { nombre: 'Ciencias naturales',         desc: 'Biología, química y laboratorio.',                                    size: 350 },
+            { nombre: 'Artes plásticas',            desc: 'Arte, pintura y expresión visual.',                                   size: 340 },
+            { nombre: 'Deportes',                   desc: 'Actividad física, entrenamiento y salud.',                            size: 350 },
+            { nombre: 'Negocios',                   desc: 'Administración, finanzas y economía.',                                size: 370 },
+            { nombre: 'Electrónica',                desc: 'Electrónica, circuitos y microcontroladores.',                        size: 350 },
+            { nombre: 'Mecánica',                   desc: 'Mecánica, motores y fabricación.',                                    size: 340 },
+            { nombre: 'Derecho',                    desc: 'Derecho, legislación y justicia.',                                    size: 360 },
+            { nombre: 'Psicología',                 desc: 'Psicología, terapia y bienestar.',                                    size: 340 },
+            { nombre: 'Comunicación',               desc: 'Periodismo, redacción y medios.',                                     size: 350 },
+            { nombre: 'Emprendedurismo',            desc: 'Innovación, emprendimiento y startups.',                              size: 380 }
+        ];
+
+        const CANVAS_W = 3100;
+        const CANVAS_H = 2400;
+        const MARGIN   = 200;
+        const MIN_DIST = 430;
+        const MAX_ATTEMPTS = 400;
+
+        function generarPosicionesAleatorias(cantidad) {
+            const posiciones = [];
+            let minDistActual = MIN_DIST;
+
+            for (let i = 0; i < cantidad; i++) {
+                let intentos = 0;
+                let colocada = false;
+
+                while (!colocada && intentos < MAX_ATTEMPTS) {
+                    const x = MARGIN + Math.random() * (CANVAS_W - 2 * MARGIN);
+                    const y = MARGIN + Math.random() * (CANVAS_H - 2 * MARGIN);
+
+                    let valida = true;
+                    for (let j = 0; j < posiciones.length; j++) {
+                        const dx = x - posiciones[j].x;
+                        const dy = y - posiciones[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < minDistActual) { valida = false; break; }
+                    }
+
+                    if (valida) {
+                        posiciones.push({ x: x, y: y });
+                        colocada = true;
+                    }
+                    intentos++;
+                }
+
+                if (!colocada) {
+                    minDistActual *= 0.95;
+                    i--;
+                }
+            }
+
+            return posiciones;
+        }
+
+        const posiciones = generarPosicionesAleatorias(especialidades.length);
+
+        const paletaClases = [
+            'paleta-1', 'paleta-2', 'paleta-3', 'paleta-4',
+            'paleta-5', 'paleta-6', 'paleta-7', 'paleta-8'
+        ];
+
+        /* =====================================================================
+           2. GENERACIÓN DINÁMICA DE ESFERAS
+           ===================================================================== */
+        const canvas   = document.getElementById('constelacionCanvas');
+        const viewport = document.getElementById('constelacionViewport');
+        const dragHint = document.getElementById('dragHint');
+
+        especialidades.forEach(function (esp, i) {
+            const esfera = document.createElement('div');
+            esfera.className = 'esfera ' + paletaClases[i % paletaClases.length];
+            esfera.textContent = esp.nombre;
+            esfera.dataset.desc = esp.desc;
+            esfera.dataset.index = i;
+
+            const size = esp.size;
+            esfera.style.width  = size + 'px';
+            esfera.style.height = size + 'px';
+            esfera.style.fontSize = Math.max(1.0, size / 175) + 'rem';
+            esfera.style.padding  = (size * 0.10) + 'px';
+
+            esfera.style.left = posiciones[i].x + 'px';
+            esfera.style.top  = posiciones[i].y + 'px';
+
+            esfera.style.animation =
+                'floaty ' + (3 + (i % 4) * 0.6) + 's ease-in-out ' + (i * 0.15) + 's infinite';
+
+            canvas.appendChild(esfera);
+        });
+
+        /* =====================================================================
+           3. DRAG TO PAN
+           ===================================================================== */
+        let isDragging = false;
+        let moved      = false;
+        let wasDragged = false;
+        let startX = 0, startY = 0;
+        let panX   = 0, panY   = 0;
+        let vw = 0, vh = 0;
+
+        function updateViewportSize() {
+            vw = viewport.clientWidth;
+            vh = viewport.clientHeight;
+        }
+        updateViewportSize();
+
+        function applyPan() {
+            const minX = Math.min(0, vw - CANVAS_W);
+            const maxX = 0;
+            const minY = Math.min(0, vh - CANVAS_H);
+            const maxY = 0;
+
+            if (panX < minX) panX = minX;
+            if (panX > maxX) panX = maxX;
+            if (panY < minY) panY = minY;
+            if (panY > maxY) panY = maxY;
+
+            canvas.style.transform =
+                'translate3d(' + panX + 'px, ' + panY + 'px, 0)';
+        }
+
+        function centerMap() {
+            updateViewportSize();
+            panX = (vw - CANVAS_W) / 2;
+            panY = (vh - CANVAS_H) / 2;
+            applyPan();
+        }
+
+        function onPointerDown(e) {
+            if (e.button !== undefined && e.button !== 0) return;
+            if (e.target.closest && e.target.closest('.btn-ver-mas')) return;
+
+            isDragging = true;
+            moved      = false;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+            viewport.classList.add('dragging');
+            if (dragHint) dragHint.classList.add('hidden');
+        }
+
+        function onPointerMove(e) {
+            if (!isDragging) return;
+            const newPanX = e.clientX - startX;
+            const newPanY = e.clientY - startY;
+
+            if (!moved) {
+                const dx = Math.abs(newPanX - panX);
+                const dy = Math.abs(newPanY - panY);
+                if (dx > 4 || dy > 4) moved = true;
+            }
+            panX = newPanX;
+            panY = newPanY;
+            applyPan();
+        }
+
+        function onPointerUp() {
+            if (!isDragging) return;
+            if (moved) {
+                wasDragged = true;
+                setTimeout(function () { wasDragged = false; }, 0);
+            }
+            isDragging = false;
+            viewport.classList.remove('dragging');
+        }
+
+        viewport.addEventListener('pointerdown', onPointerDown, { passive: true });
+        window.addEventListener('pointermove',   onPointerMove,  { passive: true });
+        window.addEventListener('pointerup',     onPointerUp,    { passive: true });
+        window.addEventListener('pointercancel', onPointerUp,    { passive: true });
+
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                updateViewportSize();
+                applyPan();
+            }, 100);
+        });
+
+        requestAnimationFrame(function () {
+            requestAnimationFrame(centerMap);
+        });
+
+        /* =====================================================================
+           4. INTERACCIÓN DE ESFERAS + DESELECCIÓN POR CLICK FUERA
+           ===================================================================== */
+        const esferas = document.querySelectorAll('.esfera');
+        const descBox = document.getElementById('descripcionEspecialidad');
+
+        function deselectAll() {
+            esferas.forEach(function (c) {
+                c.classList.remove('active', 'dimmed');
+            });
+            descBox.innerHTML =
+                '<span class="placeholder">Hacé clic en una especialidad para conocer más</span>';
+        }
+
+        function hasActive() {
+            for (let i = 0; i < esferas.length; i++) {
+                if (esferas[i].classList.contains('active')) return true;
+            }
+            return false;
+        }
+
+        esferas.forEach(function (esfera) {
+            esfera.addEventListener('click', function (e) {
+                if (wasDragged) { e.stopPropagation(); return; }
+                e.stopPropagation();
+
+                const isActive = this.classList.contains('active');
+
+                if (isActive) {
+                    deselectAll();
+                    return;
+                }
+
+                esferas.forEach(function (c) {
+                    c.classList.remove('active', 'dimmed');
+                });
+                this.classList.add('active');
+                esferas.forEach(function (c) {
+                    if (c !== esfera) c.classList.add('dimmed');
+                });
+
+                const nombre = this.textContent.trim();
+                const desc   = this.dataset.desc || 'Especialidad en auge.';
+                descBox.innerHTML = '<strong>' + nombre + ':</strong> ' + desc;
+            });
+        });
+
+        viewport.addEventListener('click', function (e) {
+            if (wasDragged) return;
+            if (e.target.closest && e.target.closest('.esfera')) return;
+            if (!hasActive()) return;
+            deselectAll();
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!hasActive()) return;
+            if (e.target.closest && e.target.closest('.esfera')) return;
+            if (e.target.closest && e.target.closest('.btn-ver-mas')) return;
+            if (e.target.closest && e.target.closest('.quick-nav')) return;
+            if (e.target.closest && e.target.closest('.descripcion-especialidad')) return;
+            deselectAll();
+        });
+
+        /* =====================================================================
+           5. DESCRIPCIÓN FLOTANTE — control por scroll
+           - Aparece antes de llegar a la sección (200px antes).
+           - Se oculta ANTES al scrollear dentro de la sección (a los ~55% de vh).
+           ===================================================================== */
+        const seccionEspecialidades = document.getElementById('especialidades');
+
+        function updateDescVisibility() {
+            if (!seccionEspecialidades) return;
+            const rect = seccionEspecialidades.getBoundingClientRect();
+            const vhNow = window.innerHeight;
+
+            /* Mostrar cuando la sección asoma (con margen inferior de 200px) */
+            const entering = rect.top < vhNow + 200;
+
+            /* Ocultar cuando ya scrolleamos bastante dentro de la sección */
+            const deepInside = rect.top < -vhNow * 0.55;
+
+            /* Ocultar también si la sección ya salió por completo */
+            const fullyOut = rect.bottom < 0;
+
+            if (entering && !deepInside && !fullyOut) {
+                descBox.classList.add('visible');
+            } else {
+                descBox.classList.remove('visible');
+            }
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                window.requestAnimationFrame(function () {
+                    updateDescVisibility();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', updateDescVisibility);
+        /* Comprobar al inicio también */
+        updateDescVisibility();
+
+        /* =====================================================================
+           6. QUICK NAV — visible SOLO cuando el hero está a la vista
+           ===================================================================== */
+        const quickNav = document.getElementById('quickNav');
+        const heroSection = document.getElementById('hero');
+
+        if ('IntersectionObserver' in window && heroSection && quickNav) {
+            const heroObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        quickNav.classList.add('visible');
+                    } else {
+                        quickNav.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            heroObserver.observe(heroSection);
+        } else if (quickNav) {
+            quickNav.classList.add('visible');
+        }
+
+        /* =====================================================================
+           7. BOTÓN "Y MUCHO MÁS"
+           ===================================================================== */
+        const btnVerMas = document.getElementById('btnVerMas');
+        if (btnVerMas) {
+            btnVerMas.addEventListener('click', function (e) {
+                e.stopPropagation();
+                document.getElementById('testimonios')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
+        /* =====================================================================
+           8. QUICK NAV — scroll suave a secciones
+           ===================================================================== */
+        document.querySelectorAll('.quick-nav-btn').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const targetSelector = this.dataset.target;
+                const target = document.querySelector(targetSelector);
+                if (!target) return;
+
+                const headerEl = document.querySelector('header');
+                const headerH  = headerEl ? headerEl.offsetHeight : 0;
+                const top = target.getBoundingClientRect().top + window.pageYOffset - headerH - 8;
+
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            });
+        });
+
+        /* =====================================================================
+           9. TESTIMONIOS
+           ===================================================================== */
+        const testimoniosData = [
+            {
+                texto: 'Sumar nuestra escuela a MuchaBocha nos permitió llegar a familias que buscaban exactamente nuestro perfil técnico. La visibilidad fue inmediata.',
+                autor: 'Escuela Técnica N° 12',
+                tipo: 'D.E. N° 6 · Villa Lugano',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ET12&backgroundColor=f2a65a&textColor=2b2438'
+            },
+            {
+                texto: 'La plataforma nos ayudó a mostrar nuestras orientaciones en Industria de los Alimentos a un público que no nos conocía. Hoy tenemos lista de espera.',
+                autor: 'E.E.S.T. N° 8 Paula Albarracín',
+                tipo: 'D.E. N° 17 · Villa Devoto',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EE8&backgroundColor=686698&textColor=ffffff'
+            },
+            {
+                texto: 'Recibimos consultas de chicos que ya sabían qué especialidad querían seguir. Eso nos ahorra muchísimo trabajo de orientación previa.',
+                autor: 'Colegio San Martín',
+                tipo: 'Privado · Belgrano',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CSM&backgroundColor=9b99cb&textColor=ffffff'
+            },
+            {
+                texto: 'La ficha de nuestra escuela quedó clarísima: especialidades, modalidad, ubicación. Las familias llegan a las jornadas ya informadas.',
+                autor: 'Escuela Normal Superior N° 4',
+                tipo: 'D.E. N° 2 · Recoleta',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ENS4&backgroundColor=2b2438&textColor=f2a65a'
+            },
+            {
+                texto: 'Como escuela con orientación en TICs, necesitábamos mostrar lo que hacemos. MuchaBocha nos dio ese espacio con un diseño moderno y claro.',
+                autor: 'E.E.S.T. N° 3 María Sánchez de Thompson',
+                tipo: 'D.E. N° 4 · Barracas',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EE3&backgroundColor=4a3f5c&textColor=ffffff'
+            },
+            {
+                texto: 'El comparador de especialidades nos posicionó muy bien frente a otras escuelas de la zona. Los chicos llegan sabiendo qué esperar.',
+                autor: 'Instituto Nuestra Señora del Pilar',
+                tipo: 'Privado · Núñez',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=INSP&backgroundColor=c9a05a&textColor=2b2438'
+            },
+            {
+                texto: 'Trabajar con MuchaBocha fue simple y rápido. En pocos días teníamos nuestra ficha publicada y empezamos a recibir consultas.',
+                autor: 'Escuela de Comercio N° 6',
+                tipo: 'D.E. N° 10 · Flores',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EC6&backgroundColor=8a7ab3&textColor=ffffff'
+            },
+            {
+                texto: 'Nuestra orientación en Energías Renovables generó mucho interés a través de la plataforma. Es una vidriera excelente para proyectos innovadores.',
+                autor: 'E.E.S.T. N° 15 Maipú',
+                tipo: 'D.E. N° 18 · Palermo',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EE15&backgroundColor=5a7a9a&textColor=ffffff'
+            },
+            {
+                texto: 'MuchaBocha entiende lo que las familias necesitan: información clara, comparación honesta y acceso directo a cada institución.',
+                autor: 'Colegio La Salle',
+                tipo: 'Privado · Colegiales',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CLS&backgroundColor=f2a65a&textColor=2b2438'
+            }
+        ];
+
+        const track = document.getElementById('testimoniosTrack');
+
+        function renderEstrellas(calificacion) {
+            let html = '<div class="testimonio-estrellas" aria-label="' + calificacion + ' de 5 estrellas">';
+            for (let s = 1; s <= 5; s++) {
+                if (s <= calificacion) {
+                    html += '<i class="fas fa-star"></i>';
+                } else {
+                    html += '<i class="fas fa-star empty"></i>';
+                }
+            }
+            html += '</div>';
+            return html;
+        }
+
+        testimoniosData.forEach(function (t) {
+            const calificacion = Math.random() < 0.6 ? 5 : 4;
+
+            const item = document.createElement('div');
+            item.className = 'testimonio-item';
+            item.innerHTML =
+                renderEstrellas(calificacion) +
+                '<div class="testimonio-avatar"><img src="' + t.avatar + '" alt="Logo de ' + t.autor + '" /></div>' +
+                '<p class="testimonio-texto">“' + t.texto + '”</p>' +
+                '<span class="testimonio-autor">' + t.autor +
+                    '<span class="escuela-tipo">' + t.tipo + '</span>' +
+                '</span>';
+
+            track.appendChild(item);
+        });
+
+        /* =====================================================================
+           10. CARRUSEL DE TESTIMONIOS
+           ===================================================================== */
+        (function () {
+            const leftBtn  = document.getElementById('testimoniosLeft');
+            const rightBtn = document.getElementById('testimoniosRight');
+            let idx = 0;
+
+            function visibleCount() {
+                const w = window.innerWidth;
+                if (w < 600) return 1;
+                if (w < 1000) return 2;
+                if (w < 1400) return 3;
+                return 4;
+            }
+            function itemWidth() {
+                const first = track.querySelector('.testimonio-item');
+                if (!first) return 380;
+                const style = window.getComputedStyle(first);
+                const gap = parseFloat(getComputedStyle(track).gap) || 32;
+                const basis = parseFloat(style.flexBasis) || 380;
+                return basis + gap;
+            }
+            function maxIndex() {
+                return Math.max(0, track.children.length - visibleCount());
+            }
+            function update() {
+                const max = maxIndex();
+                if (idx > max) idx = max;
+                if (idx < 0)    idx = 0;
+                track.style.transform = 'translateX(-' + (idx * itemWidth()) + 'px)';
+                leftBtn.style.opacity  = idx <= 0    ? '0.4' : '1';
+                rightBtn.style.opacity = idx >= max  ? '0.4' : '1';
+                leftBtn.style.pointerEvents  = idx <= 0   ? 'none' : 'auto';
+                rightBtn.style.pointerEvents = idx >= max ? 'none' : 'auto';
+            }
+
+            leftBtn.addEventListener('click', function () {
+                if (idx > 0) { idx--; update(); }
+            });
+            rightBtn.addEventListener('click', function () {
+                if (idx < maxIndex()) { idx++; update(); }
+            });
+
+            let rt;
+            window.addEventListener('resize', function () {
+                clearTimeout(rt);
+                rt = setTimeout(function () {
+                    if (idx > maxIndex()) idx = maxIndex();
+                    update();
+                }, 120);
+            });
+
+            setTimeout(update, 60);
+        })();
+
+    })();
+    </script>
+
+</body>
+</html>

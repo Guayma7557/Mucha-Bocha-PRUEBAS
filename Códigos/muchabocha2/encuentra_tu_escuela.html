@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MuchaBocha · Encontrá tu escuela</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700;900&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary-100: #686698;
+            --primary-200: #9b99cb;
+            --primary-accent: #f2a65a;
+            --text-light: #c9d1d9;
+            --bg-light: #e7ebef;
+            --bg-dark: #2b2438;
+            --bg-dark-lighter: #3a3045;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4 { font-family: 'Bitter', serif; font-weight: 900; letter-spacing: -0.02em; }
+        p { font-family: 'Nunito', sans-serif; font-weight: 400; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; width: 100%; }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--bg-dark); color: var(--text-light);
+            padding: 0.8rem 0; z-index: 50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 3px solid var(--primary-accent);
+        }
+        header .container {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; padding: 0 2rem;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.8rem;
+            font-family: 'Bitter', serif; font-size: 1.8rem; font-weight: 900;
+            color: #fff; letter-spacing: -0.5px;
+        }
+        .logo img {
+            height: 48px; width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.2s;
+        }
+        .logo img:hover { transform: scale(1.05) rotate(-2deg); }
+        .logo-text {
+            color: #fff; font-size: 1.8rem; font-weight: 900;
+            font-family: 'Bitter', serif; letter-spacing: -0.5px;
+        }
+        .logo-text .accent { color: var(--primary-accent); }
+        nav { display: flex; gap: 2.5rem; font-weight: 700; font-size: 1.1rem; }
+        nav a {
+            color: var(--text-light); transition: all 0.25s;
+            padding: 0.3rem 0; position: relative;
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0%; height: 2px; background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+        nav a:hover { color: #fff; }
+        nav a:hover::after { width: 100%; }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            flex: 1;
+            padding-top: 80px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-dark);
+            overflow: hidden;
+            border-bottom: 4px solid var(--primary-accent);
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(135deg, rgba(43, 36, 56, 0.9) 0%, rgba(104, 102, 152, 0.6) 50%, rgba(43, 36, 56, 0.9) 100%),
+                url('et20.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 20%, rgba(242, 166, 90, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 75%, rgba(155, 153, 203, 0.15) 0%, transparent 45%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeUp 0.8s ease-out;
+        }
+        .hero-section h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .hero-section p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== FILTER SECTION ===== */
+        .filter-section {
+            background-color: var(--bg-dark); 
+            padding: 3rem 2rem 5rem;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(242, 166, 90, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(155, 153, 203, 0.08) 0%, transparent 40%);
+        }
+        .filter-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        .filter-header h2 {
+            font-size: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        .filter-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 4px;
+            background: var(--primary-accent);
+            border-radius: 2px;
+        }
+        .filter-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-top: 1rem;
+        }
+
+        .btn-filter-all {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-filter-all:hover {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(242, 166, 90, 0.4);
+        }
+
+        .filter-controls {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .btn-filter-main {
+            width: 100%;
+            background: var(--primary-accent);
+            border: none;
+            border-radius: 16px;
+            padding: 1.2rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(242, 166, 90, 0.4);
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .btn-filter-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(242, 166, 90, 0.6);
+            background: #e0943f;
+        }
+        .btn-filter-main.active {
+            background: #e0943f;
+            box-shadow: inset 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .btn-filter {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 1.2rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+        }
+        .btn-filter span {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-filter:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(242, 166, 90, 0.3);
+        }
+        .btn-filter.active {
+            background: var(--primary-100);
+            border-color: var(--primary-100);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(104, 102, 152, 0.4);
+        }
+
+        /* ===== DROPDOWNS (ACCORDION) ===== */
+        .dropdowns-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dropdown-panel {
+            background: rgba(43, 36, 56, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease, margin 0.5s ease, padding 0.5s ease;
+            margin-top: 0;
+            padding: 0 1.5rem;
+        }
+        .dropdown-panel.active {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .dropdown-panel h4 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        /* ===== RADIO BUTTONS MODERNOS ===== */
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        .option-item:hover {
+            background: rgba(155, 153, 203, 0.2);
+            border-color: var(--primary-200);
+            color: #fff;
+            transform: translateX(5px);
+        }
+        
+        .option-item input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .option-item input[type="radio"]:checked {
+            border-color: var(--primary-accent);
+            background: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(242, 166, 90, 0.4);
+        }
+        
+        .option-item input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px; height: 8px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        /* ===== SIDEBAR (FILTRO LATERAL) ===== */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -450px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(43, 36, 56, 0.95);
+            backdrop-filter: blur(12px);
+            border-right: 3px solid var(--primary-accent);
+            z-index: 100;
+            padding: 2rem;
+            transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+        .btn-close-sidebar {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-close-sidebar:hover {
+            color: var(--primary-accent);
+            background: rgba(242, 166, 90, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* ===== SCROLLBAR MODERNA Y SUTIL ===== */
+        .sidebar-body {
+            display: block;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            /* Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-100) transparent;
+        }
+
+        /* Webkit (Chrome, Safari, Edge) */
+        .sidebar-body::-webkit-scrollbar {
+            width: 6px; /* Barra delgada y moderna */
+        }
+        .sidebar-body::-webkit-scrollbar-track {
+            background: transparent; /* Fondo transparente para que se vea limpio */
+        }
+        .sidebar-body::-webkit-scrollbar-thumb {
+            background-color: var(--primary-100); /* Color de la paleta */
+            border-radius: 10px;
+            border: 1px solid transparent; /* Pequeño padding visual */
+            background-clip: padding-box;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar-body::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-accent); /* Naranja al pasar el mouse */
+        }
+
+        .sidebar-categories {
+            width: 100%;
+        }
+        .sidebar-category {
+            margin-bottom: 2rem;
+        }
+        .sidebar-category h4 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-category ul {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        /* ===== CHECKBOXES MODERNOS ===== */
+        .sidebar-option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .sidebar-option-item:hover {
+            background: rgba(155, 153, 203, 0.2);
+            border-color: var(--primary-200);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .sidebar-option-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .sidebar-option-item input[type="checkbox"]:checked {
+            border-color: var(--primary-accent);
+            background: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(242, 166, 90, 0.4);
+        }
+
+        .sidebar-option-item input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px; height: 8px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        /* ===== RESULTS SECTION ===== */
+        .results-section {
+            background-color: var(--bg-dark);
+            padding: 4rem 2rem 5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(104, 102, 152, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(242, 166, 90, 0.05) 0%, transparent 50%);
+        }
+        .results-section.visible {
+            display: block;
+            animation: fadeUp 0.5s ease-out;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-family: 'Bitter', serif;
+            position: relative;
+            display: inline-block;
+        }
+        .results-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0;
+            width: 50px; height: 3px;
+            background: var(--primary-accent);
+            border-radius: 2px;
+        }
+
+        .info-box {
+            background: rgba(104, 102, 152, 0.15);
+            border: 1px solid rgba(155, 153, 203, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-box:hover {
+            border-color: var(--primary-200);
+            box-shadow: 0 15px 40px rgba(104, 102, 152, 0.3);
+        }
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 5px; height: 100%;
+            background: var(--primary-accent);
+            box-shadow: 0 0 15px var(--primary-accent);
+        }
+        .info-box h4 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+        }
+        .info-box p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-dark-lighter);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: var(--primary-accent);
+        }
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary-100);
+            transition: border-color 0.3s ease;
+        }
+        .card:hover .card-img {
+            border-color: var(--primary-accent);
+        }
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-content h5 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+        }
+        .card-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+        .card-tag {
+            display: inline-block;
+            background: rgba(242, 166, 90, 0.2);
+            color: var(--primary-accent);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            align-self: flex-start;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-ver-mas-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .btn-ver-mas {
+            background: transparent;
+            border: 2px solid var(--primary-accent);
+            color: var(--primary-accent);
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-ver-mas:hover {
+            background: var(--primary-accent);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(242, 166, 90, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 4.5rem 0 0;
+            position: relative;
+            border-top: 4px solid var(--primary-accent);
+            overflow: hidden;
+            z-index: 10;
+        }
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(242, 166, 90, 0.10) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(155, 153, 203, 0.10) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .footer-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 3.5rem;
+        }
+        .footer-brand .logo {
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+        }
+        .footer-brand .logo img {
+            height: 44px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .footer-brand p {
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            max-width: 320px;
+        }
+        .footer-social {
+            display: flex;
+            gap: 0.7rem;
+        }
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            transition: all 0.25s ease;
+        }
+        .footer-social a:hover {
+            background: var(--primary-accent);
+            color: #fff;
+            border-color: var(--primary-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(242, 166, 90, 0.35);
+        }
+        .footer-col h4 {
+            font-family: 'Bitter', serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1.3rem;
+            letter-spacing: 0.3px;
+            position: relative;
+            padding-bottom: 0.6rem;
+        }
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 32px; height: 3px;
+            background: var(--primary-accent);
+            border-radius: 3px;
+        }
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .footer-col ul li a {
+            color: var(--text-light);
+            opacity: 0.85;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-col ul li a i {
+            font-size: 0.7rem;
+            color: var(--primary-accent);
+            transition: transform 0.2s ease;
+        }
+        .footer-col ul li a:hover {
+            color: #fff;
+            opacity: 1;
+            transform: translateX(4px);
+        }
+        .footer-col ul li a:hover i {
+            transform: translateX(3px);
+        }
+        .footer-news p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 1.2rem;
+        }
+        .footer-news form {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.35rem;
+            transition: border-color 0.3s ease;
+        }
+        .footer-news form:focus-within {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.15);
+        }
+        .footer-news input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.55rem 1rem;
+        }
+        .footer-news input::placeholder {
+            color: rgba(201, 209, 217, 0.6);
+        }
+        .footer-news button {
+            background: var(--primary-accent);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.55rem 1.3rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-news button:hover {
+            background: #e0943f;
+            transform: scale(1.03);
+        }
+        .footer-bottom {
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.88rem;
+            color: rgba(201, 209, 217, 0.75);
+        }
+        .footer-bottom .copy strong {
+            color: var(--primary-accent);
+            font-weight: 800;
+        }
+        .footer-bottom .legal {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-bottom .legal a {
+            color: rgba(201, 209, 217, 0.75);
+            transition: color 0.2s;
+        }
+        .footer-bottom .legal a:hover {
+            color: var(--primary-accent);
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero-section h1 { font-size: 2.8rem; }
+            .hero-section p { font-size: 1.1rem; }
+            .btn-row { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
+            .footer-news { grid-column: 1 / -1; }
+            .btn-filter-all { position: relative; margin: 1rem auto 0; width: fit-content; }
+            .filter-header { display: flex; flex-direction: column; align-items: center; }
+        }
+        @media (max-width: 768px) {
+            header .container { flex-direction: row; justify-content: space-between; padding: 0 1rem; }
+            .logo { font-size: 1.4rem; }
+            .logo img { height: 38px; }
+            .logo-text { font-size: 1.4rem; }
+            nav { gap: 1rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: flex-end; }
+            
+            .hero-section { min-height: 50vh; padding: 4rem 1rem; }
+            .hero-section h1 { font-size: 2.2rem; }
+            .hero-section p { font-size: 1rem; }
+            
+            .filter-section { padding: 2rem 1rem 4rem; }
+            .filter-header h2 { font-size: 1.6rem; }
+            .filter-header p { font-size: 1rem; }
+            
+            .btn-filter-main { font-size: 1.1rem; padding: 1rem; }
+            .btn-filter { font-size: 1rem; padding: 1rem; }
+            
+            .options-grid { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .info-box { padding: 1.5rem; }
+            .info-box h4 { font-size: 1.3rem; }
+
+            .sidebar { width: 320px; left: -340px; padding: 1.5rem; }
+            .sidebar.open { left: 0; }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.2rem;
+                padding: 0 1.5rem 2.5rem;
+            }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-news { grid-column: 1 / -1; }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.3rem 1.5rem;
+            }
+            .footer-bottom .legal { justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 1.2rem; }
+            .logo img { height: 32px; }
+            .logo-text { font-size: 1.2rem; }
+            nav { gap: 0.5rem 0.8rem; font-size: 0.8rem; }
+            .hero-section { min-height: 40vh; padding: 3rem 1rem; }
+            .hero-section h1 { font-size: 1.8rem; }
+            
+            .filter-section { padding: 1.5rem 1rem 3rem; }
+            .filter-header h2 { font-size: 1.4rem; }
+            .filter-header p { font-size: 0.9rem; }
+            
+            .btn-filter-main { font-size: 1rem; padding: 0.8rem; }
+            .btn-filter { font-size: 0.9rem; padding: 0.8rem; }
+            .dropdown-panel.active { padding: 1rem; }
+            .dropdown-panel h4 { font-size: 1rem; }
+            .option-item { font-size: 0.9rem; padding: 0.5rem 0.8rem; }
+            
+            .results-section { padding: 2rem 1rem 3rem; }
+            .results-title { font-size: 1.4rem; }
+            .info-box h4 { font-size: 1.1rem; }
+            .info-box p { font-size: 0.95rem; }
+
+            .sidebar { width: 280px; left: -300px; padding: 1rem; }
+            .sidebar-option-item { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
+
+            .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; padding: 0 1.2rem 2rem; }
+            .footer-brand p { font-size: 0.9rem; }
+            .footer-col h4 { font-size: 0.98rem; }
+            .footer-col ul li a { font-size: 0.88rem; }
+            .footer-news form { flex-direction: column; background: transparent; border: none; padding: 0; gap: 0.6rem; }
+            .footer-news input {
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 50px;
+                padding: 0.7rem 1.2rem;
+            }
+            .footer-news button { width: 100%; justify-content: center; padding: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="MuchaBocha.png" alt="MuchaBocha" />
+                <span class="logo-text">Mucha<span class="accent">Bocha</span></span>
+            </div>
+            <nav>
+    <a href="#">Inicio</a>
+    <a href="encuentra_tu_escuela.html">Encuentra tu escuela</a>
+    <a href="#">Quienes somos</a>
+    <a href="ayuda.html">Ayuda</a>
+</nav>
+        </div>
+    </header>
+
+    <!-- ===== SIDEBAR (FILTRO LATERAL) ===== -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="btn-close-sidebar" id="btnCloseSidebar" aria-label="Cerrar filtros">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-body">
+            <div class="sidebar-categories">
+                <!-- Categoría 1: Especialidad -->
+                <div class="sidebar-category">
+                    <h4>Especialidad</h4>
+                    <ul>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="tics"> TICs</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="multimedia"> Multimedia</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="electronica"> Electrónica</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="mecanica"> Mecánica</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="salud"> Salud</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="administracion"> Administración</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="quimica"> Química</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="diseno"> Diseño</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="comunicacion"> Comunicación</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="deportes"> Deportes</label></li>
+                    </ul>
+                </div>
+
+                <!-- Categoría 2: Modalidad -->
+                <div class="sidebar-category">
+                    <h4>Modalidad</h4>
+                    <ul>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="mañana"> Mañana</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="noche"> Noche</label></li>
+                        <li><label class="sidebar-option-item"><input type="checkbox" class="sidebar-check" value="entreturno"> EntreTurno</label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>¿Qué quiere ser tu hijo de grande?</h1>
+                <p>Es la primer pregunta que se tienen que hacer para que encuentre su profesión perfecta.</p>
+            </div>
+        </section>
+
+        <!-- FILTER SECTION -->
+        <section class="filter-section">
+            <div class="container">
+                <div class="filter-header">
+                    <h2>Filtro Rápido</h2>
+                    <p>Clickeá y elegí las profesiones que hay en CABA ya con el filtro rápido</p>
+                    <button class="btn-filter-all" id="btnFiltrarTodo">
+                        <i class="fas fa-sliders-h"></i> Filtrar todo
+                    </button>
+                </div>
+
+                <div class="filter-controls">
+                    <button class="btn-filter-main" data-target="interes">Por interés / profesiones</button>
+                    
+                    <div class="btn-row">
+                        <button class="btn-filter" data-target="comuna"><span>Por comuna</span></button>
+                        <button class="btn-filter" data-target="especialidad"><span>Por especialidad</span></button>
+                        <button class="btn-filter" data-target="modalidad"><span>Por modalidad</span></button>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Desplegables -->
+                <div class="dropdowns-container">
+                    <!-- Dropdown Interés -->
+                    <div id="interes" class="dropdown-panel">
+                        <h4>Seleccioná tu interés profesional</h4>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="interes" value="Tecnología y Sistemas"> Tecnología y Sistemas</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Salud y Bienestar"> Salud y Bienestar</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Arte, Diseño y Comunicación"> Arte, Diseño y Comunicación</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Negocios y Economía"> Negocios y Economía</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Ciencias Sociales y Humanidades"> Ciencias Sociales y Humanidades</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Ciencias Naturales y Exactas"> Ciencias Naturales y Exactas</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Deportes y Educación Física"> Deportes y Educación Física</label>
+                            <label class="option-item"><input type="radio" name="interes" value="Industria y Producción"> Industria y Producción</label>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown Comuna -->
+                    <div id="comuna" class="dropdown-panel">
+                        <h4>Seleccioná una comuna de CABA</h4>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 1"> Comuna 1</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 2"> Comuna 2</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 3"> Comuna 3</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 4"> Comuna 4</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 5"> Comuna 5</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 6"> Comuna 6</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 7"> Comuna 7</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 8"> Comuna 8</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 9"> Comuna 9</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 10"> Comuna 10</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 11"> Comuna 11</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 12"> Comuna 12</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 13"> Comuna 13</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 14"> Comuna 14</label>
+                            <label class="option-item"><input type="radio" name="comuna" value="Comuna 15"> Comuna 15</label>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown Especialidad -->
+                    <div id="especialidad" class="dropdown-panel">
+                        <h4>Seleccioná una especialidad</h4>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="especialidad" value="TICs"> TICs</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Multimedia"> Multimedia</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Electrónica"> Electrónica</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Mecánica"> Mecánica</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Salud"> Salud</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Administración"> Administración</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Química"> Química</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Diseño"> Diseño</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Comunicación"> Comunicación</label>
+                            <label class="option-item"><input type="radio" name="especialidad" value="Deportes"> Deportes</label>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown Modalidad -->
+                    <div id="modalidad" class="dropdown-panel">
+                        <h4>Seleccioná una modalidad</h4>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="modalidad" value="Técnica"> Técnica</label>
+                            <label class="option-item"><input type="radio" name="modalidad" value="Bachillerato"> Bachillerato</label>
+                            <label class="option-item"><input type="radio" name="modalidad" value="Comercial"> Comercial</label>
+                            <label class="option-item"><input type="radio" name="modalidad" value="Artística"> Artística</label>
+                            <label class="option-item"><input type="radio" name="modalidad" value="Especializada"> Especializada</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== RESULTS SECTION ===== -->
+        <section class="results-section" id="resultsSection">
+            <div class="container">
+                <h3 class="results-title">Antes de que busques...</h3>
+                
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <h4 id="infoBoxTitle">¿Qué es [especialidad]?</h4>
+                        <p id="infoBoxText">Seleccioná una opción en los filtros para conocer más sobre las escuelas disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+                </div>
+
+                <!-- Botón Ver Más -->
+                <div class="btn-ver-mas-wrapper">
+                    <button class="btn-ver-mas" id="btnVerMas">
+                        Ver más escuelas <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="MuchaBocha.png" alt="MuchaBocha" />
+                    <span class="logo-text">Mucha<span class="accent">Bocha</span></span>
+                </div>
+                <p>La plataforma que ayuda a estudiantes de CABA a encontrar la escuela secundaria que mejor se adapta a sus intereses y su futuro.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter / X"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Plataforma</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Encuentra tu escuela</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Especialidades en auge</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Testimonios</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Comparador de escuelas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Quiénes somos</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Preguntas frecuentes</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Guía para familias</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contacto</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Ayuda</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-news">
+                <h4>Sumate al newsletter</h4>
+                <p>Recibí novedades sobre especialidades, escuelas y orientación vocacional.</p>
+                <form onsubmit="event.preventDefault(); this.reset(); this.querySelector('button').innerHTML='<i class=&quot;fas fa-check&quot;></i> ¡Listo!'">
+                    <input type="email" placeholder="tu@email.com" required />
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copy">
+                © 2025 <strong>MuchaBocha</strong>. Todos los derechos reservados.
+            </div>
+            <div class="legal">
+                <a href="#">Términos y condiciones</a>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const schoolsData = [
+                { id: 1, name: 'Escuela Técnica N° 12', desc: 'Formación técnica de excelencia con orientación en Informática y Robótica. Amplios talleres y laboratorios equipados.', tag: 'TICs', img: 'et20.png', comuna: 'Comuna 1', modalidad: 'Mañana' },
+                { id: 2, name: 'Instituto San Martín', desc: 'Educación integral con un fuerte enfoque en ciencias sociales y humanidades. Fomentamos el pensamiento crítico y la solidaridad.', tag: 'Multimedia', img: 'et20.png', comuna: 'Comuna 2', modalidad: 'Noche' },
+                { id: 3, name: 'Colegio del Sol', desc: 'Comunidad educativa que promueve la creatividad, el arte y el deporte. Un espacio para crecer y desarrollar talentos únicos.', tag: 'Administración', img: 'et20.png', comuna: 'Comuna 3', modalidad: 'EntreTurno' },
+                { id: 4, name: 'E.E.S.T. N° 8 Paula Albarracín', desc: 'Especializada en Industria de los Alimentos y Química. Contamos con plantas piloto y laboratorios de última generación.', tag: 'Electrónica', img: 'et20.png', comuna: 'Comuna 4', modalidad: 'Mañana' },
+                { id: 5, name: 'Escuela Normal Superior N° 4', desc: 'Formación docente y bachillerato con orientación en Ciencias Naturales. Un clásico de la educación pública porteña.', tag: 'Mecánica', img: 'et20.png', comuna: 'Comuna 5', modalidad: 'Noche' },
+                { id: 6, name: 'Instituto Nuestra Señora del Pilar', desc: 'Educación personalizada con orientación en Economía y Administración. Convenios con universidades para pasantías.', tag: 'Salud', img: 'et20.png', comuna: 'Comuna 6', modalidad: 'EntreTurno' },
+                { id: 7, name: 'Escuela de Comercio N° 6', desc: 'Especializada en gestión administrativa, contable y financiera. Amplia salida laboral y preparación universitaria.', tag: 'Química', img: 'et20.png', comuna: 'Comuna 7', modalidad: 'Mañana' },
+                { id: 8, name: 'E.E.S.T. N° 15 Maipú', desc: 'Orientación en Energías Renovables y Electrónica. Proyectos innovadores en sustentabilidad y tecnología.', tag: 'Diseño', img: 'et20.png', comuna: 'Comuna 8', modalidad: 'Noche' },
+                { id: 9, name: 'Colegio La Salle', desc: 'Formación en valores con un sólido programa académico en Ciencias y Deportes. Instalaciones deportivas de primer nivel.', tag: 'Comunicación', img: 'et20.png', comuna: 'Comuna 9', modalidad: 'EntreTurno' },
+                { id: 10, name: 'Escuela Técnica N° 3 María Sánchez', desc: 'Orientación en TICs y Multimedia. Diseño de videojuegos, animación digital y desarrollo web.', tag: 'Deportes', img: 'et20.png', comuna: 'Comuna 10', modalidad: 'Mañana' },
+                { id: 11, name: 'Instituto Tecnológico San José', desc: 'Bachillerato con orientación en Salud. Primeros auxilios, anatomía y preparación para carreras médicas.', tag: 'TICs', img: 'et20.png', comuna: 'Comuna 11', modalidad: 'Noche' },
+                { id: 12, name: 'E.E.S.T. N° 5 Ingeniero Huergo', desc: 'Formación técnica en Mecánica y Maestro de Obra. Talleres con maquinaria industrial de última generación.', tag: 'Multimedia', img: 'et20.png', comuna: 'Comuna 12', modalidad: 'EntreTurno' },
+                { id: 13, name: 'Colegio Nacional de Buenos Aires', desc: 'Excelencia académica en Ciencias Sociales y Humanidades. Formación de líderes con pensamiento crítico.', tag: 'Administración', img: 'et20.png', comuna: 'Comuna 13', modalidad: 'Mañana' },
+                { id: 14, name: 'Escuela de Bellas Artes Manuel Belgrano', desc: 'Especialización en Artes Visuales y Diseño. Talleres de pintura, escultura y grabado.', tag: 'Electrónica', img: 'et20.png', comuna: 'Comuna 14', modalidad: 'Noche' },
+                { id: 15, name: 'Instituto Comercial José León Suárez', desc: 'Orientación en Administración y Economía. Prácticas profesionalizantes en empresas de primer nivel.', tag: 'Mecánica', img: 'et20.png', comuna: 'Comuna 15', modalidad: 'EntreTurno' },
+                { id: 16, name: 'E.E.S.T. N° 11 Manuel Mujica Láinez', desc: 'Técnicos en Informática y Redes. Certificaciones internacionales en Cisco y Microsoft.', tag: 'Salud', img: 'et20.png', comuna: 'Comuna 1', modalidad: 'Mañana' },
+                { id: 17, name: 'Colegio Santa María de los Ángeles', desc: 'Educación con enfoque en Comunicación Social y Periodismo. Radio y canal de TV internos.', tag: 'Química', img: 'et20.png', comuna: 'Comuna 2', modalidad: 'Noche' },
+                { id: 18, name: 'Escuela Técnica N° 7 Naciones Unidas', desc: 'Especialidad en Química y Biotecnología. Convenios con laboratorios de investigación científica.', tag: 'Diseño', img: 'et20.png', comuna: 'Comuna 3', modalidad: 'EntreTurno' }
+            ];
+
+            const sidebarMap = {
+                'tics': 'TICs', 'multimedia': 'Multimedia', 'electronica': 'Electrónica',
+                'mecanica': 'Mecánica', 'salud': 'Salud', 'administracion': 'Administración',
+                'quimica': 'Química', 'diseno': 'Diseño', 'comunicacion': 'Comunicación',
+                'deportes': 'Deportes', 'mañana': 'Mañana', 'noche': 'Noche', 'entreturno': 'EntreTurno'
+            };
+
+            let state = {
+                radioFilter: null,
+                sidebarEspecialidades: [],
+                sidebarModalidades: []
+            };
+            let showAllSchools = false;
+
+            const filterButtons = document.querySelectorAll('.btn-filter, .btn-filter-main');
+            const dropdownPanels = document.querySelectorAll('.dropdown-panel');
+            const resultsSection = document.getElementById('resultsSection');
+            const infoBoxTitle = document.getElementById('infoBoxTitle');
+            const infoBoxText = document.getElementById('infoBoxText');
+            const cardsGrid = document.getElementById('cardsGrid');
+            const btnVerMas = document.getElementById('btnVerMas');
+            
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const btnFiltrarTodo = document.getElementById('btnFiltrarTodo');
+            const btnCloseSidebar = document.getElementById('btnCloseSidebar');
+            const sidebarChecks = document.querySelectorAll('.sidebar-check');
+
+            function openSidebar() {
+                sidebar.classList.add('open');
+                sidebarOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            btnFiltrarTodo.addEventListener('click', openSidebar);
+            btnCloseSidebar.addEventListener('click', closeSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            sidebarChecks.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    const val = this.value;
+                    const isEsp = ['tics', 'multimedia', 'electronica', 'mecanica', 'salud', 'administracion', 'quimica', 'diseno', 'comunicacion', 'deportes'].includes(val);
+                    
+                    if (isEsp) {
+                        if (this.checked) state.sidebarEspecialidades.push(sidebarMap[val]);
+                        else state.sidebarEspecialidades = state.sidebarEspecialidades.filter(v => v !== sidebarMap[val]);
+                    } else {
+                        if (this.checked) state.sidebarModalidades.push(sidebarMap[val]);
+                        else state.sidebarModalidades = state.sidebarModalidades.filter(v => v !== sidebarMap[val]);
+                    }
+                    
+                    showAllSchools = false;
+                    renderSchools();
+                });
+            });
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetPanel = document.getElementById(targetId);
+
+                    dropdownPanels.forEach(panel => {
+                        if (panel !== targetPanel) panel.classList.remove('active');
+                    });
+
+                    filterButtons.forEach(b => b.classList.remove('active'));
+
+                    if (targetPanel.classList.contains('active')) {
+                        targetPanel.classList.remove('active');
+                        this.classList.remove('active');
+                    } else {
+                        targetPanel.classList.add('active');
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            const radioInputs = document.querySelectorAll('input[type="radio"]');
+
+            radioInputs.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    state.radioFilter = { name: this.name, value: this.value };
+                    showAllSchools = false;
+
+                    if (this.name === 'especialidad') {
+                        infoBoxTitle.textContent = `¿Qué es ${this.value}?`;
+                        const textos = {
+                            'TICs': 'Tecnologías de la Información y la Comunicación. Aprenderás sobre redes, programación y sistemas digitales.',
+                            'Multimedia': 'Diseño y producción de contenido digital, animación, video y audio para distintos medios.',
+                            'Electrónica': 'Estudio de circuitos, sistemas embebidos y automatización de procesos electrónicos.',
+                            'Mecánica': 'Diseño, fabricación y mantenimiento de sistemas mecánicos, motores y estructuras.',
+                            'Salud': 'Formación orientada a la promoción de la salud, primeros auxilios y ciencias médicas básicas.',
+                            'Administración': 'Gestión de organizaciones, recursos humanos, finanzas y estrategias comerciales.',
+                            'Química': 'Estudio de la materia, sus propiedades y transformaciones, con fuerte base experimental.',
+                            'Diseño': 'Comunicación visual, diseño gráfico, industrial y de interiores para resolver necesidades estéticas y funcionales.',
+                            'Comunicación': 'Periodismo, locución, producción de medios y estrategias de comunicación social.',
+                            'Deportes': 'Educación física, entrenamiento deportivo y promoción de hábitos saludables.'
+                        };
+                        infoBoxText.textContent = textos[this.value] || 'Descubre todo lo que esta especialidad tiene para ofrecerte.';
+                    } else if (this.name === 'comuna') {
+                        infoBoxTitle.textContent = `Escuelas en la ${this.value}`;
+                        infoBoxText.textContent = `Explorá las instituciones educativas disponibles en la ${this.value} de la Ciudad de Buenos Aires.`;
+                    } else if (this.name === 'modalidad') {
+                        infoBoxTitle.textContent = `Modalidad ${this.value}`;
+                        infoBoxText.textContent = `Este tipo de formación ofrece un enfoque específico para preparar a los estudiantes en su futuro académico y profesional.`;
+                    } else if (this.name === 'interes') {
+                        infoBoxTitle.textContent = `Interés en ${this.value}`;
+                        infoBoxText.textContent = `Escuelas con orientaciones afines a tus intereses en ${this.value}.`;
+                    }
+
+                    renderSchools();
+                    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            function renderSchools() {
+                let filteredData = schoolsData;
+
+                if (state.radioFilter) {
+                    const { name, value } = state.radioFilter;
+                    if (name === 'comuna') {
+                        filteredData = filteredData.filter(s => s.comuna === value);
+                    } else if (name === 'especialidad') {
+                        filteredData = filteredData.filter(s => s.tag === value);
+                    } else if (name === 'modalidad') {
+                        filteredData = filteredData.filter(s => s.modalidad === value);
+                    } else if (name === 'interes') {
+                        const interesMap = {
+                            'Tecnología y Sistemas': ['TICs', 'Electrónica', 'Multimedia'],
+                            'Salud y Bienestar': ['Salud'],
+                            'Arte, Diseño y Comunicación': ['Diseño', 'Comunicación', 'Multimedia'],
+                            'Negocios y Economía': ['Administración'],
+                            'Ciencias Sociales y Humanidades': ['Comunicación', 'Administración'],
+                            'Ciencias Naturales y Exactas': ['Química', 'Salud'],
+                            'Deportes y Educación Física': ['Deportes'],
+                            'Industria y Producción': ['Mecánica', 'Electrónica']
+                        };
+                        const tags = interesMap[value] || [];
+                        filteredData = filteredData.filter(s => tags.includes(s.tag));
+                    }
+                }
+
+                if (state.sidebarEspecialidades.length > 0) {
+                    filteredData = filteredData.filter(s => state.sidebarEspecialidades.includes(s.tag));
+                }
+                if (state.sidebarModalidades.length > 0) {
+                    filteredData = filteredData.filter(s => state.sidebarModalidades.includes(s.modalidad));
+                }
+
+                const limit = showAllSchools ? filteredData.length : 6;
+                const schoolsToRender = filteredData.slice(0, limit);
+
+                cardsGrid.innerHTML = schoolsToRender.map(school => `
+                    <div class="card">
+                        <img src="${school.img}" alt="${school.name}" class="card-img">
+                        <div class="card-content">
+                            <h5>${school.name}</h5>
+                            <p>${school.desc}</p>
+                            <span class="card-tag">${school.tag}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                if (schoolsToRender.length === 0) {
+                    cardsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 2rem;">No se encontraron escuelas con los filtros seleccionados.</p>`;
+                }
+
+                if (filteredData.length > 6) {
+                    btnVerMas.style.display = 'inline-flex';
+                    btnVerMas.innerHTML = showAllSchools ? 'Ver menos <i class="fas fa-arrow-up"></i>' : 'Ver más escuelas <i class="fas fa-arrow-down"></i>';
+                } else {
+                    btnVerMas.style.display = 'none';
+                }
+
+                resultsSection.classList.add('visible');
+            }
+
+            btnVerMas.addEventListener('click', function() {
+                showAllSchools = !showAllSchools;
+                renderSchools();
+            });
+
+            renderSchools();
+        });
+    </script>
+</body>
+</html>
